@@ -1,15 +1,19 @@
 {
   "name": "snake",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Snake CLI Game",
+  "main": "main.ts",
   "directories": {
     "lib": "lib"
   },
-  "dependencies": {
-    "@types/node": "^14.0.12"
+  "scripts": {
+    "start": "ts-node ."
   },
-  "devDependencies": {},
-  "author": "",
+  "devDependencies": {
+    "@types/node": "^14.0.12",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "author": "PromiSe####",
   "license": "ISC"
 }
