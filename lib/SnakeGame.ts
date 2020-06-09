@@ -72,6 +72,7 @@ export class SnakeGame {
     this.pushSnake()
     this.pushApple()
   }
+
   private pushSnake() {
     const { width, height, score } = this
 
@@ -85,6 +86,22 @@ export class SnakeGame {
     })
   }
 
+  posIndex(index: number): [number, number] {
+    return this.#map.posIndex(index)
+  }
+
+  posValue(value: number): [number, number] {
+    return this.#map.posValue(value)
+  }
+
+  getIndex(x = 0, y = x, aX = 0, aY = 0) {
+    return this.#map.getIndex(x , y, aX, aY)
+  }
+
+  getValue(x = 0, y = x, aX = 0, aY = 0) {
+    return this.#map.getValue(x , y, aX, aY)
+  }
+
   pushApple() {
     const { map } = this
     const clearIndexes = map.map((e, i) => i).filter(e => !map[e])
@@ -92,11 +109,11 @@ export class SnakeGame {
     this.#map[index] = this.maxScore
   }
 
-  getDirection(dir: TDirectionName = this.#direction) {
+  getDirection(dir = this.#direction) {
     return [...ConstDirections[dir]]
   }
 
-  setDirection(dir: TDirectionName) {
+  setDirection(dir = this.#direction) {
     const [x, y] = this.getDirection()
     const [xD, yD] = this.getDirection(dir)
 
@@ -132,6 +149,7 @@ export class SnakeGame {
     })
 
     this.#score -= score
+
 
     return score
   }

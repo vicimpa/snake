@@ -6,6 +6,13 @@ const snakeGame = new SnakeGame(3, 20, 20)
 const renderer = new ConsoleRenderer(snakeGame)
 const keyboard = new KeyboardController()
 
+if(process.argv.indexOf('-c') !== -1)
+  renderer.colorize = false
+
+if(process.argv.indexOf('-i') !== -1)
+  renderer.extended = false
+
+
 setInterval(() => {
   snakeGame.loop()
   renderer.render()
@@ -20,6 +27,4 @@ keyboard.on('keypress', ({enum: e}) => {
     case Keys.RIGHT: snakeGame.setDirection('RIGHT'); break
     case Keys.BOTTOM: snakeGame.setDirection('BOTTOM'); break
   }
-
-  renderer.render()
 })
