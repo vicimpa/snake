@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext"]
+  }
+}
