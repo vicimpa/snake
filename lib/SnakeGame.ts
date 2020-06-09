@@ -3,10 +3,11 @@ import { Range } from "./Range";
 import { rand } from "./Random";
 
 export enum SnakeObject {
-  CLEAR = 0,
-  HEAD = 1,
-  BODY = 2,
-  APPLE = 3
+  CLEAR,
+  HEAD,
+  BODY,
+  TAIL,
+  APPLE
 }
 
 const ConstDirections = {
@@ -26,9 +27,14 @@ export class SnakeGame extends GameMap {
   #ticks: number
   #score: number
   #direction: TDirectionName
+  #hasMove = false
 
   get ticks() { return this.#ticks }
   get score() { return this.#score }
+  get appleLength() {
+    return [...this].filter(
+      e => e==this.maxScore).length
+  }
   get gameMap() {
     return [...this].map(e => {
       if (!e)
@@ -39,6 +45,9 @@ export class SnakeGame extends GameMap {
 
       if (e == this.#score)
         return SnakeObject.HEAD
+
+      if (e == 1)
+        return SnakeObject.TAIL
 
       return SnakeObject.BODY
     })
@@ -78,24 +87,45 @@ export class SnakeGame extends GameMap {
   }
 
   setDirection(dir: TDirectionName) {
-    const { score } = this
-    const direction = this.getDirection(dir)
-    const [x, y] = this.posValue(score)
+    const [x, y] = this.getDirection()
+    const [xD, yD] = this.getDirection(dir)
 
-    const newValue = this.getValue(x,y,...direction)
+    if(!this.#hasMove)
+      return this.#direction 
 
-    if(!newValue || newValue !== this.maxScore)
-      return this.#direction = dir
+    if((x && xD) && x == xD*-1) return this.#direction 
+    if((y && yD) && y == yD*-1) return this.#direction 
 
-    return this.#direction
+    // const newValue = this.getValue(x,y,...direction)
+
+    // if(!newValue || newValue == this.maxScore)
+    //   return this.#direction = dir
+
+    this.#hasMove = false
+    return this.#direction = dir
   }
 
-  loop(score = this.score, newPosition?: [number, number]) {
+  cutTail(score = 0) {
+    Range.go(this.#score, 0).map(s => {
+      let [x, y] = this.posValue(s)
+      let index = this.getIndex(x, y)
+      let val = s - score
+
+      if(val == 0) val = this.maxScore
+      if(val < 0) val = this.maxScore
+      return [index, val]
+    }).map(([index, val]) => {
+      this[index] = val
+    })
+
+    this.#score -= score
+
+    return score
+  }
+
+  loop(score = this.score, newPosition?: [number, number]): number | boolean {
     if (!score)
       return this[this.getIndex(...newPosition)] = score
-
-    if(score == this.score)
-      this.#ticks++
 
     const [x, y] = this.posValue(score)
     const dir = this.getDirection(this.#direction)
@@ -108,15 +138,29 @@ export class SnakeGame extends GameMap {
         this.getIndex(x, y, ...dir))
 
     if (this.getValue(...newPosition) == this.maxScore) {
-      this.pushApple()
-      return this[this.getIndex(...newPosition)] = ++this.#score
+      this[this.getIndex(...newPosition)] = ++this.#score
+      
+      if(!this.appleLength)
+        this.pushApple()
+
+      return this.#score
+    }
+    
+    let val = this.getValue(...newPosition)
+
+    if (val) {
+      this.cutTail(val)
+      return this.loop()
     }
 
-    if (this.getValue(...newPosition))
-      return
+    if(score == this.score) {
+      this.#hasMove = true
+      this.#ticks++
+    }
 
+    this[this.getIndex(x, y)] = 0
     this[this.getIndex(...newPosition)] = score
 
-    this.loop(score - 1, [x, y])
+    return this.loop(score - 1, [x, y])
   }
 }
