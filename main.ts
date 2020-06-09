@@ -1,4 +1,3 @@
-
 import { SnakeGame } from "./lib/SnakeGame";
 import { ConsoleRenderer } from "./lib/ConsoleRenderer";
 import { KeyboardController, Keys } from "./lib/Keyboard";

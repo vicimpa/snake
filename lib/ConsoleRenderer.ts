@@ -8,9 +8,8 @@ export class ConsoleRenderer {
   render() {
     let output = ''
 
-    const { width, height, score, ticks, gameMap } = this.game
+    const { width, score, ticks, renderMap } = this.game
     const horisontal = Range.go(0, width)
-    const vertical = Range.go(0, height)
 
     const horisontalRow = horisontal.map(e => '─').join('─')
 
@@ -24,23 +23,19 @@ export class ConsoleRenderer {
 
     output += `┌${horisontalRow}┐\n`
 
-    vertical.map((y) => {
-      const row = horisontal.map((x) => {
-        let index = this.game.getIndex(x, y)
-
-        switch (gameMap[index]) {
+    renderMap.map(row => {
+      let rowString = row.map(v => {
+        switch (v) {
           case SnakeObject.CLEAR: return ' '
           case SnakeObject.HEAD: return Red + '᪣' + Reset
           case SnakeObject.BODY: return '᪣'
           case SnakeObject.TAIL: return Cyan + '᪣' + Reset
           case SnakeObject.APPLE: return Green + '᪥' + Reset
         }
-
       }).join(' ')
 
-      output += `│${row}│\n`
+      output += `│${rowString}│\n`
     })
-
 
     output += `└${horisontalRow}┘\n`
 

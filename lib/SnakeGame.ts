@@ -17,45 +17,54 @@ const ConstDirections = {
   BOTTOM: <TDirection>[0, 1]
 }
 
-const DirectionsNames: TDirectionName[] = 
+const DirectionsNames: TDirectionName[] =
   <any>Object.keys(ConstDirections)
 
 type TDirection = [number, number]
 type TDirectionName = keyof typeof ConstDirections
 
-export class SnakeGame extends GameMap {
+export class SnakeGame {
   #ticks: number
   #score: number
   #direction: TDirectionName
   #hasMove = false
+  #map: GameMap
 
+  get map() { return [...this.#map] }
+  get width() { return this.#map.width }
+  get height() { return this.#map.height }
+  get maxScore() { return this.#map.maxScore }
   get ticks() { return this.#ticks }
   get score() { return this.#score }
   get appleLength() {
-    return [...this].filter(
-      e => e==this.maxScore).length
+    return this.map.filter(
+      e => e == this.maxScore).length
   }
-  get gameMap() {
-    return [...this].map(e => {
-      if (!e)
-        return SnakeObject.CLEAR
+  get renderMap() {
+    const { map, width, height } = this
 
-      if (e == this.maxScore)
-        return SnakeObject.APPLE
-
-      if (e == this.#score)
-        return SnakeObject.HEAD
-
-      if (e == 1)
-        return SnakeObject.TAIL
-
-      return SnakeObject.BODY
+    return Range.go(0, height).map(y => {
+      return Range.go(0, width).map(x => {
+        let e = map[y * width + x]
+        if (!e)
+          return SnakeObject.CLEAR
+  
+        if (e == this.maxScore)
+          return SnakeObject.APPLE
+  
+        if (e == this.#score)
+          return SnakeObject.HEAD
+  
+        if (e == 1)
+          return SnakeObject.TAIL
+  
+        return SnakeObject.BODY
+      })
     })
   }
 
   constructor(score = 3, width = 10, height = width) {
-    super(width, height)
-
+    this.#map = new GameMap(width, height)
     this.#ticks = 0
     this.#score = score
     this.#direction = DirectionsNames[rand(0, 3)]
@@ -72,14 +81,15 @@ export class SnakeGame extends GameMap {
 
     Range.go(score, 0).map((val, i) => {
       let delta = dir.map(e => e * -1 * i)
-      this[this.getIndex(cX, cY, ...delta)] = val
+      this.#map[this.#map.getIndex(cX, cY, ...delta)] = val
     })
   }
 
   pushApple() {
-    const clearIndexes = [...this].map((e, i) => i).filter(e => !this[e])
+    const { map } = this
+    const clearIndexes = map.map((e, i) => i).filter(e => !map[e])
     const index = clearIndexes[rand(0, clearIndexes.length - 1)]
-    this[index] = this.maxScore
+    this.#map[index] = this.maxScore
   }
 
   getDirection(dir: TDirectionName = this.#direction) {
@@ -90,11 +100,14 @@ export class SnakeGame extends GameMap {
     const [x, y] = this.getDirection()
     const [xD, yD] = this.getDirection(dir)
 
-    if(!this.#hasMove)
-      return this.#direction 
+    if(this.#direction == dir)
+      return this.#direction
 
-    if((x && xD) && x == xD*-1) return this.#direction 
-    if((y && yD) && y == yD*-1) return this.#direction 
+    if (!this.#hasMove)
+      return this.#direction
+
+    if ((x && xD) && x == xD * -1) return this.#direction
+    if ((y && yD) && y == yD * -1) return this.#direction
 
     // const newValue = this.getValue(x,y,...direction)
 
@@ -107,15 +120,15 @@ export class SnakeGame extends GameMap {
 
   cutTail(score = 0) {
     Range.go(this.#score, 0).map(s => {
-      let [x, y] = this.posValue(s)
-      let index = this.getIndex(x, y)
+      let [x, y] = this.#map.posValue(s)
+      let index = this.#map.getIndex(x, y)
       let val = s - score
 
-      if(val == 0) val = this.maxScore
-      if(val < 0) val = this.maxScore
+      if (val == 0) val = this.maxScore
+      if (val < 0) val = this.maxScore
       return [index, val]
     }).map(([index, val]) => {
-      this[index] = val
+      this.#map[index] = val
     })
 
     this.#score -= score
@@ -124,42 +137,43 @@ export class SnakeGame extends GameMap {
   }
 
   loop(score = this.score, newPosition?: [number, number]): number | boolean {
+    if (score == this.score)
+      this.#hasMove = true
+  
     if (!score)
-      return this[this.getIndex(...newPosition)] = score
+      return this.#map[this.#map.getIndex(...newPosition)] = score
 
-    const [x, y] = this.posValue(score)
+    const [x, y] = this.#map.posValue(score)
     const dir = this.getDirection(this.#direction)
 
     if (x < 0 || y < 0)
       return 0
 
     if (!newPosition)
-      newPosition = this.posIndex(
-        this.getIndex(x, y, ...dir))
+      newPosition = this.#map.posIndex(
+        this.#map.getIndex(x, y, ...dir))
 
-    if (this.getValue(...newPosition) == this.maxScore) {
-      this[this.getIndex(...newPosition)] = ++this.#score
-      
-      if(!this.appleLength)
+    if (this.#map.getValue(...newPosition) == this.maxScore) {
+      this.#map[this.#map.getIndex(...newPosition)] = ++this.#score
+
+      if (!this.appleLength)
         this.pushApple()
 
       return this.#score
     }
-    
-    let val = this.getValue(...newPosition)
+
+    let val = this.#map.getValue(...newPosition)
 
     if (val) {
       this.cutTail(val)
       return this.loop()
     }
 
-    if(score == this.score) {
-      this.#hasMove = true
+    if (score == this.score)
       this.#ticks++
-    }
 
-    this[this.getIndex(x, y)] = 0
-    this[this.getIndex(...newPosition)] = score
+    this.#map[this.#map.getIndex(x, y)] = 0
+    this.#map[this.#map.getIndex(...newPosition)] = score
 
     return this.loop(score - 1, [x, y])
   }
