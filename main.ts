@@ -2,7 +2,7 @@ import { SnakeGame } from "./lib/SnakeGame";
 import { ConsoleRenderer } from "./lib/ConsoleRenderer";
 import { KeyboardController, Keys } from "./lib/Keyboard";
 
-const snakeGame = new SnakeGame(3, 20, 20)
+const snakeGame = new SnakeGame(4, 20, 20)
 const renderer = new ConsoleRenderer(snakeGame)
 const keyboard = new KeyboardController()
 
