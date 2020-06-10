@@ -4,7 +4,7 @@
 
 ## Установка
 
-Из глобальный зависимостей только [Node.JS](https://nodejs.org/ru/download/current/). 
+Из глобальный зависимостей только [NodeJS](https://nodejs.org/ru/download/current/). 
 Поставить `желательно` последнюю версию. На момент написания это `14.4.0`
 ```bash
 > git clone https://github.com/vicimpa/snake.git
