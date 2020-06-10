@@ -1,3 +1,7 @@
+![node](https://img.shields.io/badge/node-v14.4.0-green)
+![git](https://img.shields.io/badge/git-v2.24.3-red)
+![typescript](https://img.shields.io/badge/typescript-v3.9.5-blue)
+
 # Snake
 
 Знаменитая змейка с небольшим сюрпризом
