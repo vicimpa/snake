@@ -24,7 +24,7 @@
 ```
 
 >
-> ![normal](https://github.com/vicimpa/snake/raw/master/img/normal.png)
+> ![normal](img/normal.png)
 >
 > Работает не везде. Если ничего не видно попробуйте варианты ниже
 > 
@@ -34,7 +34,7 @@
 > npm run start-color
 ```
 >
-> ![color](https://github.com/vicimpa/snake/raw/master/img/color.png)
+> ![color](img/color.png)
 >
 > Шансы поиграть уже выше, но все равно есть проблемы
 > 
@@ -44,7 +44,7 @@
 > npm run start-primitive
 ```
 > 
-> ![primitive](https://github.com/vicimpa/snake/raw/master/img/primitive.png)
+> ![primitive](img/primitive.png)
 >
 > Тут за исключением цветов и рамки, все стандартно
 > 
@@ -54,7 +54,7 @@
 > npm run start-free
 ```
 > 
-> ![primitive](https://github.com/vicimpa/snake/raw/master/img/free.png)
+> ![primitive](img/free.png)
 > 
 > Тут из крутого, только рамка
 > 
