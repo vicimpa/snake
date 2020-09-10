@@ -1,6 +1,6 @@
-import { SnakeGame } from "./lib/SnakeGame";
-import { ConsoleRenderer } from "./lib/ConsoleRenderer";
-import { KeyboardController, Keys } from "./lib/Keyboard";
+import { SnakeGame } from "lib/SnakeGame";
+import { ConsoleRenderer } from "lib/ConsoleRenderer";
+import { KeyboardController, Keys } from "lib/Keyboard";
 
 const snakeGame = new SnakeGame(4, 20, 20)
 const renderer = new ConsoleRenderer(snakeGame)
@@ -11,7 +11,6 @@ if(process.argv.indexOf('-c') !== -1)
 
 if(process.argv.indexOf('-i') !== -1)
   renderer.extended = false
-
 
 setInterval(() => {
   snakeGame.loop()
