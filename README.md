@@ -18,6 +18,8 @@
 
 ## Запуск 
 
+Можно запустить online [вот тут](https://vicimpa.github.io/snake/)
+
 ### Запуск цветной и развернутой версии
 ```bash
 > npm start
