@@ -150,7 +150,6 @@ export class SnakeGame {
 
     this.#score -= score
 
-
     return score
   }
 
@@ -159,7 +158,7 @@ export class SnakeGame {
       this.#hasMove = true
   
     if (!score)
-      return this.#map[this.#map.getIndex(...newPosition)] = score
+      return this.#map[this.#map.getIndex(...newPosition)] = score   // 0 0 4 3 2 1 0 0 0 0
 
     const [x, y] = this.#map.posValue(score)
     const dir = this.getDirection(this.#direction)
@@ -171,8 +170,13 @@ export class SnakeGame {
       newPosition = this.#map.posIndex(
         this.#map.getIndex(x, y, ...dir))
 
-    if (this.#map.getValue(...newPosition) == this.maxScore) {
-      this.#map[this.#map.getIndex(...newPosition)] = ++this.#score
+    const newValue = this.#map.getValue(...newPosition)
+    const newIndex = this.#map.getIndex(...newPosition)
+
+    if (newValue == this.maxScore) {
+      this.#map[newIndex] = ++this.#score
+
+      this.#ticks++
 
       if (!this.appleLength)
         this.pushApple()
@@ -180,10 +184,8 @@ export class SnakeGame {
       return this.#score
     }
 
-    let val = this.#map.getValue(...newPosition)
-
-    if (val) {
-      this.cutTail(val)
+    if (newValue) {
+      this.cutTail(newValue)
       return this.loop()
     }
 
@@ -191,7 +193,7 @@ export class SnakeGame {
       this.#ticks++
 
     this.#map[this.#map.getIndex(x, y)] = 0
-    this.#map[this.#map.getIndex(...newPosition)] = score
+    this.#map[newIndex] = score
 
     return this.loop(score - 1, [x, y])
   }
