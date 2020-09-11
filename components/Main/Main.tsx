@@ -56,10 +56,6 @@ export const MainComponent = (props: IMainProps) => {
       renderer.render()
     }, 200)
     
-
-    setTimeout(() => {
-    }, 10)
-
     window.addEventListener('keydown', onKeyDown)
 
     return () => {
