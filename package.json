@@ -10,7 +10,8 @@
     "start": "ts-node .",
     "start-color": "ts-node . -c",
     "start-primitive": "ts-node . -i",
-    "start-free": "ts-node . -c -i"
+    "start-free": "ts-node . -c -i",
+    "start-react": "webpack-dev-server"
   },
   "devDependencies": {
     "@types/node": "^14.0.12",
