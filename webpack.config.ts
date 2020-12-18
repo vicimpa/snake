@@ -6,8 +6,8 @@ const { argv, env } = process
 const testArg = (arg: string) =>
   argv.indexOf(arg) !== -1
 
-const devMode = !testArg('--prod')
-const watchMode = testArg('--watch')
+const devMode = !!process.env.DEVMODE
+const watchMode = devMode
 
 const mode = env.NODE_ENV = devMode ?
   'development' : 'production'

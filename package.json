@@ -12,8 +12,8 @@
     "start-primitive": "ts-node . -i",
     "start-free": "ts-node . -c -i",
     "start-react": "webpack-dev-server",
-    "buid-dev": "webpack",
-    "build": "webpack --prod"
+    "build-dev": "DEVMODE=true webpack",
+    "build": "webpack"
   },
   "devDependencies": {
     "@types/node": "^14.0.12",
