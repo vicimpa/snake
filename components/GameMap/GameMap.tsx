@@ -1,10 +1,9 @@
-import React from "react";
-
-import { ReactRenderer, IPointState, DirectionBlock } from "lib/ReactRenderer";
-import { SnakeObject } from "lib/SnakeGame";
-import { Range } from "lib/Range";
-
 import "./GameMap.sass"
+
+import { DirectionBlock, IPointState, ReactRenderer } from "lib/ReactRenderer";
+
+import { Range } from "lib/Range";
+import { SnakeObject } from "lib/SnakeGame";
 
 interface IGameMapProps {
   renderer: ReactRenderer,

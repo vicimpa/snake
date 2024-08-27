@@ -1,6 +1,5 @@
-import React from "react";
-
 import "./GameInfo.sass";
+
 import { ReactRenderer } from "lib/ReactRenderer";
 
 interface IGameInfoProps {

@@ -1,9 +1,8 @@
-import React from "react";
-import { ReactRenderer } from "lib/ReactRenderer";
-
 import "./Game.sass";
-import { GameMapComponent } from "../GameMap/GameMap";
+
 import { GameInfoComponent } from "../GameInfo/GameInfo";
+import { GameMapComponent } from "../GameMap/GameMap";
+import { ReactRenderer } from "lib/ReactRenderer";
 
 interface IGameProps {
   renderer: ReactRenderer

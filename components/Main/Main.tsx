@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { SnakeGame } from "lib/SnakeGame";
-import { ReactRenderer } from "lib/ReactRenderer";
-
 import "./Main.sass";
+
 import { GameComponent } from "../Game/Game";
+import { ReactRenderer } from "lib/ReactRenderer";
+import { SnakeGame } from "lib/SnakeGame";
+import { useEffect } from "react";
 
 interface IMainProps {
   width?: number

@@ -1,40 +1,33 @@
 {
   "name": "snake",
   "version": "1.0.0",
+  "type": "module",
   "description": "Snake CLI Game",
   "main": "main.ts",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
-    "start": "ts-node .",
-    "start-color": "ts-node . -c",
-    "start-primitive": "ts-node . -i",
-    "start-free": "ts-node . -c -i",
-    "start-react": "webpack-dev-server",
-    "build-dev": "DEVMODE=true webpack",
-    "build": "webpack"
+    "start": "tsx .",
+    "start-color": "tsx . -c",
+    "start-primitive": "tsx . -i",
+    "start-free": "tsx . -c -i",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^14.0.12",
-    "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.8",
-    "css-loader": "^4.3.0",
-    "file-loader": "^6.1.0",
-    "node-sass": "^4.13.1",
-    "sass-loader": "^10.0.2",
-    "style-loader": "^1.2.1",
-    "ts-loader": "^8.0.3",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.2",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "@types/node": "^22.5.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "sass": "^1.77.8",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^5.0.1"
   },
   "author": "PromiSe####",
-  "license": "ISC",
-  "dependencies": {
-    "components": "file:components",
-    "lib": "file:lib"
-  }
+  "license": "ISC"
 }
